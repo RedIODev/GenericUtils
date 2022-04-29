@@ -44,7 +44,7 @@ public abstract class GenericTypeResolver<T> implements Supplier<Class<T>> {
 
         addTypeVariablesToCache(provider);
 
-        classT = getClassFromCache(classT);
+        classT = getClassFromCache(typeT);
 
         if (classT != null) {
             resolvedParameter = classT;
