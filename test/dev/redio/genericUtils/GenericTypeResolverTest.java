@@ -10,11 +10,35 @@ public class GenericTypeResolverTest {
         public GenericClass() {
             clazz = new GenericTypeResolver<T>(getClass()){}.get();
         }
+
+        public Class<T> resolve() {
+            return new GenericTypeResolver<T>(getClass()){}.get();
+        }
     }
 
     @Test
-    public void testTypeResolution() {
+    public void testConstructorTypeResolution() {
         GenericClass<String> testClass = new GenericClass<>(){};
         assertEquals(String.class,testClass.clazz);
+    }
+
+    @Test
+    public void testInstanceTypeResolution() {
+        GenericClass<String> testClass = new GenericClass<>() {};
+        assertEquals(String.class,testClass.resolve());
+    }
+
+    static class NonGenericSubClass extends GenericClass<String> {}
+
+    @Test
+    public void testSubConstructorTypeResolution() {
+        NonGenericSubClass testClass = new NonGenericSubClass();
+        assertEquals(String.class, testClass.clazz);
+    }
+
+    @Test
+    public void testSubInstanceTypeResolution() {
+        NonGenericSubClass testClass = new NonGenericSubClass();
+        assertEquals(String.class,testClass.resolve());
     }
 }
